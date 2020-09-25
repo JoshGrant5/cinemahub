@@ -1,0 +1,50 @@
+{% extends "home.html" %}
+
+{% block title %}
+    Follow
+{% endblock %}
+
+{% block body %}
+
+    <div class="card">
+      <img class="card-img" src="/static/grey.jpg" alt="Card image">
+      <div class="card-img-overlay">
+
+        <div id="myModal" class="modal" data-backdrop="false">
+    
+            <form class="modal-content animate" action="/follow" method="post">
+                <div class="container">
+                    <h1 style="text-align:center">{{account[0]["username"]}}</h1>
+                    
+                        <h3 style="text-align:center">{{account[0]["city"]}}, {{account[0]["country"]}}</h3>
+                        <h3 style="text-align:center">Highest Rated Film: <strong style="font-style:italic">{{account[0]["id"]}}</strong></h3>
+    
+                    <button type="submit" class="btn btn-warning" >Follow</button>
+                    
+                    <a class='btn btn-danger' style="width:1110px" href='/myaccount'>Cancel</a>
+                </div>
+                
+            </form>
+        </div>
+        
+      </div>
+    </div>
+    
+<script>
+
+    $(window).on('load',function(){
+        $('#myModal').modal('show');
+    });
+        
+    var modal = document.getElementById('myModal');
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    };
+
+</script>
+
+{% endblock %}

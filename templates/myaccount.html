@@ -1,0 +1,258 @@
+{% extends "home.html" %}
+
+{% block title %}
+    My Account
+{% endblock %}
+
+<style>
+
+html {
+  overflow: hidden;
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  overflow: auto;
+}
+
+
+</style>
+
+{% block body %}
+
+    <!-- Page Content -->
+    <section class="py-3">
+      <div class="row">
+
+        <div class="col col-md-6" style="left:165px">
+
+          <div style="grid-column-gap:100px">
+            <h1 class="font-weight-light">My Account</h1>
+              <p>Username: <strong>{{info[0]["username"]}}</strong></p>
+              <p>Location: <strong>{{info[0]["city"]}}, {{info[0]["country"]}}</strong></p>
+              <p>Highest Rated Film: <strong style="font-style:italic">{{info[0]["hash"]}}</strong></p>
+          </div>
+          </div>
+
+          <div class="col col-md-4" style="left:135px; top:35px; vertical-align:middle">
+            <div style="grid-column-gap:300px">
+            <h1 class="font-weigth-light" style="font-size:large; font-weight:bold">Search User to Follow</h1>
+
+            <form  action="/myaccount" method="post">
+              <div class="autocomplete form-group" style="width:300px;">
+                  <input style="border-radius:25px; text-align:center" id="myInput" name="follow" placeholder="Username" type="text">
+              </div>
+                <button type="submit" class="btn btn-warning" style="width:auto; position:absolute">Search</button>
+            </form>
+
+            {% if not_found %}
+                <div style="position:fixed; border-radius:25px; top:250px; left:950px; z-index:5; text-align:center" class="alert alert-danger" role="alert">
+                   User Not Found :(
+                </div>
+            {% endif %}
+
+            </div>
+          </div>
+
+        </div>
+
+    </section>
+
+    <header>
+      <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+          <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+          {% if follows|length > 3 %}
+              <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+          {% endif %}
+        </ol>
+        <div class="carousel-inner" role="listbox">
+          <!-- Slide One - Set the background image for this slide in the line below -->
+          <div class="carousel-item active" style="background-image: url(/static/grey.jpg)">
+            <div class="carousel-caption d-none d-md-block">
+              <h1 class="display-4">Following</h1>
+
+            <form action="/myaccount" method="post">
+                <div class="row">
+                {% for num in range(0, follows|length) %}
+                    {% if num < 3 %}
+                      <div class="col col-md-4">
+                          <div class="card" style="grid-column-gap:100px; top:75px">
+                            <div class="card-body">
+                              <h1 class="font-weight-light" style="color:black"><strong>{{follows[num][0]["username"]}}</strong></h1>
+                              <p class="card-text" style="color:black"><strong>{{follows[num][0]["city"]}}, {{follows[num][0]["country"]}}</strong></p>
+                              <p class="card-text" style="color:black">Highest Rated Film:</p>
+                              <p class="card-text" style="color:black; font-style:italic"><strong>{{follows[num][0]["hash"]}}</strong></p>
+
+                                   <input type="radio" name="followList" style="display:none" id={{loop.index}} value={{follows[num][0]["username"]}}>
+                                    <span class="checkmark"></span>
+
+                              <button type="submit" class="btn btn-warning" onclick="document.getElementById('{{loop.index}}').checked = true" style="size:auto">View List</button>
+                            </div>
+                          </div>
+                      </div>
+                    {% endif %}
+                {% endfor %}
+                </div>
+            </form>
+
+            </div>
+          </div>
+          <!-- Slide Two - Set the background image for this slide in the line below -->
+          <div class="carousel-item" style="background-image: url(/static/grey.jpg)">
+            <div class="carousel-caption d-none d-md-block">
+              <h3 class="display-4">Following</h3>
+
+                <form action="/myaccount" method="post">
+                  <div class="row">
+                  {% for num in range(0, follows|length) %}
+                      {% if num > 2 %}
+                        <div class="col col-md-4">
+                            <div class="card" style="grid-column-gap:100px; top:75px">
+                              <div class="card-body">
+                                <h1 class="font-weight-light" style="color:black"><strong>{{follows[num][0]["username"]}}</strong></h1>
+                                <p class="card-text" style="color:black"><strong>{{follows[num][0]["city"]}}, {{follows[num][0]["country"]}}</strong></p>
+                                <p class="card-text" style="color:black">Highest Rated Film:</p>
+                                <p class="card-text" style="color:black; font-style:italic"><strong>{{follows[num][0]["hash"]}}</strong></p>
+
+                                     <input type="radio" name="followList" style="display:none" id={{loop.index}} value={{follows[num][0]["username"]}}>
+                                      <span class="checkmark"></span>
+
+                                <button type="submit" class="btn btn-warning" onclick="document.getElementById('{{loop.index}}').checked = true" style="size:auto">View List</button>
+                              </div>
+                            </div>
+                        </div>
+                      {% endif %}
+                  {% endfor %}
+                  </div>
+              </form>
+
+            </div>
+          </div>
+
+
+          <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+          </a>
+
+      </div>
+    </header>
+
+<script>
+
+function autocomplete(inp, arr) {
+  /*the autocomplete function takes two arguments,
+  the text field element and an array of possible autocompleted values:*/
+  var currentFocus;
+  /*execute a function when someone writes in the text field:*/
+  inp.addEventListener("input", function(e) {
+      var a, b, i, val = this.value;
+      /*close any already open lists of autocompleted values*/
+      closeAllLists();
+      if (!val) { return false;}
+      currentFocus = -1;
+      /*create a DIV element that will contain the items (values):*/
+      a = document.createElement("DIV");
+      a.setAttribute("id", this.id + "autocomplete-list");
+      a.setAttribute("class", "autocomplete-items");
+      /*append the DIV element as a child of the autocomplete container:*/
+      this.parentNode.appendChild(a);
+      /*for each item in the array...*/
+      for (i = 0; i < arr.length; i++) {
+        /*check if the item starts with the same letters as the text field value:*/
+        if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+          /*create a DIV element for each matching element:*/
+          b = document.createElement("DIV");
+          /*make the matching letters bold:*/
+          b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+          b.innerHTML += arr[i].substr(val.length);
+          /*insert a input field that will hold the current array item's value:*/
+          b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+          /*execute a function when someone clicks on the item value (DIV element):*/
+          b.addEventListener("click", function(e) {
+              /*insert the value for the autocomplete text field:*/
+              inp.value = this.getElementsByTagName("input")[0].value;
+              /*close the list of autocompleted values,
+              (or any other open lists of autocompleted values:*/
+              closeAllLists();
+          });
+          a.appendChild(b);
+        }
+      }
+  });
+
+  /*execute a function presses a key on the keyboard:*/
+  inp.addEventListener("keydown", function(e) {
+      var x = document.getElementById(this.id + "autocomplete-list");
+      if (x) x = x.getElementsByTagName("div");
+      if (e.keyCode == 40) {
+        /*If the arrow DOWN key is pressed,
+        increase the currentFocus variable:*/
+        currentFocus++;
+        /*and and make the current item more visible:*/
+        addActive(x);
+      } else if (e.keyCode == 38) { //up
+        /*If the arrow UP key is pressed,
+        decrease the currentFocus variable:*/
+        currentFocus--;
+        /*and and make the current item more visible:*/
+        addActive(x);
+      } else if (e.keyCode == 13) {
+        /*If the ENTER key is pressed, prevent the form from being submitted,*/
+        e.preventDefault();
+        if (currentFocus > -1) {
+          /*and simulate a click on the "active" item:*/
+          if (x) x[currentFocus].click();
+        }
+      }
+  });
+
+  function addActive(x) {
+    /*a function to classify an item as "active":*/
+    if (!x) return false;
+    /*start by removing the "active" class on all items:*/
+    removeActive(x);
+    if (currentFocus >= x.length) currentFocus = 0;
+    if (currentFocus < 0) currentFocus = (x.length - 1);
+    /*add class "autocomplete-active":*/
+    x[currentFocus].classList.add("autocomplete-active");
+  }
+
+  function removeActive(x) {
+    /*a function to remove the "active" class from all autocomplete items:*/
+    for (var i = 0; i < x.length; i++) {
+      x[i].classList.remove("autocomplete-active");
+    }
+  }
+
+  function closeAllLists(elmnt) {
+    /*close all autocomplete lists in the document,
+    except the one passed as an argument:*/
+    var x = document.getElementsByClassName("autocomplete-items");
+    for (var i = 0; i < x.length; i++) {
+      if (elmnt != x[i] && elmnt != inp) {
+        x[i].parentNode.removeChild(x[i]);
+      }
+    }
+  }
+
+  /*execute a function when someone clicks in the document:*/
+  document.addEventListener("click", function (e) {
+      closeAllLists(e.target);
+  });
+}
+
+/*An array containing all the country names in the world:*/
+var names = {{ names|tojson }};
+
+/*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
+autocomplete(document.getElementById("myInput"), names);
+
+
+{% endblock %}

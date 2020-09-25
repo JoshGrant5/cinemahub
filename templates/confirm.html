@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <!-- default char set for html, covering almost all chars/symbols in the world -->
+        <meta charset="utf-8">
+        <!-- viewport is visible area of webpage, so this meta tag are instructions for dimensions/scaling of webpage -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- bootstrap documentation -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+        <!-- film camera image from https://realfavicongenerator.net/favicon_result?file_id=p1ecj5l2k81vql5601gkb1ln5fmn6#.XwOtF2pKhN0 -->
+        <link href="/static/favicon.ico" rel="icon">
+
+        <link href="/static/styles.css" rel="stylesheet">
+
+        <!-- optional plugins from bootsrap: jQuery first, then Popper.js, and then JavaScript plugins -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+<style>
+.greyBg {
+  /* The image used */
+  background-image: url("/static/grey.jpg");
+
+  /* Full height */
+  height: 100%;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* The container */
+.container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Create a custom radio button */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+  border-radius: 50%;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the radio button is checked, add a gold background */
+.container input:checked ~ .checkmark {
+  background-color: #FFD700;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.container .checkmark:after {
+ 	top: 9px;
+	left: 9px;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: white;
+}
+</style>
+
+    <title>Confirm Title</title>
+
+    </head>
+
+<header>
+    <div class="greyBg"></div>
+</header>
+
+
+      <!-- modal for movie with multiple titles of the same name -->
+
+      <div id="id02" class="modal" data-backdrop="false">
+
+          <form class="modal-content animate" action="/confirm" method="post">
+              <div class="container">
+                  <h1>Please Specify Which Film to Rate:</h1>
+
+                  {% for movie in multi %}
+                      <label class="container" style="padding-top:0; padding-bottom:0; padding-left:40px; display:inline-block; font-style:italic" >
+                        <input type="radio" name="confirmed" value={{movie["year"]}}>
+                        {{movie["title"]}} ({{movie["year"]}})
+                        <span class="checkmark"></span>
+                      </label>
+                  {% endfor %}
+
+                  <button class="btn btn-warning" type="submit">Rate</button>
+                  <a href="/" style="width:1090px" class="btn btn-danger">Cancel</a>
+              </div>
+          </form>
+
+      </div>
+
+
+    <script>
+    // Get the modal when page is loaded
+
+        $(window).on('load',function(){
+            $('#id02').modal('show');
+        });
+
+
+    </script>

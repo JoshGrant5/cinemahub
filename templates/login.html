@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+
+        <!-- default char set for html, covering almost all chars/symbols in the world -->
+        <meta charset="utf-8">
+        <!-- viewport is visible area of webpage, so this meta tag are instructions for dimensions/scaling of webpage -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- bootstrap documentation -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+        <!-- film camera image from https://realfavicongenerator.net/favicon_result?file_id=p1ecj5l2k81vql5601gkb1ln5fmn6#.XwOtF2pKhN0 -->
+        <link href="/static/favicon.ico" rel="icon">
+
+        <link href="/static/styles.css" rel="stylesheet">
+
+        <!-- optional plugins from bootsrap: jQuery first, then Popper.js, and then JavaScript plugins -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+
+        <title>CinemaHub Login {% block title %}{% endblock %}</title>
+
+    </head>
+    
+    <style>
+      
+      html {
+        overflow: hidden;
+        height: 100%;
+      }
+      
+      body {
+        height: 100%;
+        overflow: auto;
+      }
+      
+    </style>
+
+    <body>
+        {% block body %}
+
+        <div class="container-fluid">
+          <div class="row no-gutter">
+            <div class="d-none d-md-flex col-md-4 col-lg-6 bg-image"></div>
+            <div class="col-md-8 col-lg-6" id="loginContainer">
+              <div class="login d-flex align-items-center py-5">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-md-9 col-lg-8 mx-auto">
+                      <h3 class="login-heading mb-4" style='color:white'>Welcome to CinemaHub!</h3>
+
+                      <form autocomplete='off' action="/login" method="POST">
+                        <div class="form-label-group">
+                          <input type="text" name="username" class="form-control" placeholder="Username" required>
+                          <label for="text">Username</label>
+                        </div>
+
+                        <div class="form-label-group">
+                          <input type="password" name="password" class="form-control" placeholder="Password" required>
+                          <label for="inputPassword">Password</label>
+                        </div>
+
+                        <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" id='loginButton' type="submit">Sign in</button>
+
+                        {% if x == 2 %}
+                          <div class="alert alert-danger" style="border-radius:25px; width:auto; text-align:center" role="alert">
+                              Invalid Username. Have you registered for an account?
+                          </div>
+                        {% endif %}
+
+                        {% if y == 2 and x == 1 %}
+                          <div class="alert alert-danger" style="border-radius:25px; width:auto; text-align:center" role="alert">
+                              Incorrect Password
+                          </div>
+                        {% endif %}
+
+                        <div class="text-center">
+                          <a class="small" href="/register" style='color:#FFD700'>Don't have an account?</a></div>
+                      </form>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {% endblock %}
+    </body>

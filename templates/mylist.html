@@ -1,0 +1,50 @@
+{% extends "home.html" %}
+
+{% block title %}
+    My List
+{% endblock %}
+
+{% block body %}
+
+    <div class="greyBg">
+
+    <div>
+        <h1 class="font-weight-light centered" style="color:white; padding-top:25px; position:fixed; left:650px">My List</h1>
+    </div>
+
+    <table class="table table-bordered box">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col" style="text-align:center">Title</th>
+                <th scope="col" style="text-align:center">My Rating</th>
+                <th scope="col" style="text-align:center">Comments</th>
+                <th scope="col" style="text-align:center">Date Rated</th>
+                <th scope="col" style="text-align:center">IMDB Rating</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in rows %}
+            <tr>
+                <td style="vertical-align:middle; font-style:italic; text-align:center">{{row["title"]}}</td>
+                <td style="text-align:center; vertical-align:middle">{{row["rating"]}}</td>
+                <td>
+                    <div class="dropdown">
+                        <button class="btn-sm btn-warning dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" >
+                            View
+                         </button>
+                         <div class="dropdown-menu" style="input:focus; text-area:focus; outline:none">
+                            <p style="width:400px; padding-top:15px; padding-right:5px; padding-left:5px">{{row["comments"]}}</p>
+                         </div>
+                    </div>
+                </td>
+                <td style="vertical-align:middle; text-align:center">{{row["date"]}}</td>
+                <td style="text-align:center; vertical-align:middle">{{row["imdb"]}}</td>
+            </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+
+    </div>
+
+{% endblock %}

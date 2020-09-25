@@ -1,0 +1,70 @@
+{% extends "login.html" %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block body %}
+
+
+
+        <div class="container-fluid">
+          <div class="row no-gutter">
+            <div class="d-none d-md-flex col-md-4 col-lg-6 ba-image"></div>
+            <div class="col-md-8 col-lg-6" id="registerContainer">
+              <div class="login d-flex align-items-center py-5">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-md-9 col-lg-8 mx-auto">
+                      <h3 class="login-heading mb-4" style="color:white">Register for CinemaHub!</h3>
+
+                      <form action="/register" method="POST">
+                        <div class="form-label-group">
+                          <input type="text" name="username" class="form-control" placeholder="Username" required autofocus>
+                          <label for="text">Username</label>
+                        </div>
+                        
+                        {% if match %}
+                          <div class="alert alert-danger" style="border-radius:25px; width:auto; text-align:center" role="alert">
+                              Username Taken. Please Provide a Different Username.
+                          </div>
+                        {% endif %}
+
+                        <div class="form-label-group">
+                          <input type="password" name="password" class="form-control" placeholder="Password" required>
+                          <label for="inputPassword">Password</label>
+                        </div>
+
+                        <div class="form-label-group">
+                          <input type="password" name="confirmation" class="form-control" placeholder="Confirm Password" required>
+                          <label for="inputPassword">Confirm Password</label>
+                        </div>
+                        
+                        <div class="form-label-group">
+                          <input type="text" name="city" class="form-control" placeholder="City" required>
+                          <label for="text">City</label>
+                        </div>
+                        
+                        <div class="form-label-group">
+                          <input type="text" name="country" class="form-control" placeholder="Country" required>
+                          <label for="text">Country</label>
+                        </div>
+                        
+                        {% if passwordMatch %}
+                          <div class="alert alert-danger" style="border-radius:25px; width:auto; text-align:center" role="alert">
+                              Passwords Do Not Match!
+                          </div>
+                        {% endif %}
+
+                        <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" id="registerButton" type="submit">Register</button>
+                      </form>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+{% endblock %}
